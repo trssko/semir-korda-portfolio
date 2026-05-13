@@ -60,7 +60,7 @@ export default function Contact() {
                 target={href.startsWith('mailto') ? undefined : '_blank'}
                 rel={href.startsWith('mailto') ? undefined : 'noopener noreferrer'}
                 variants={item}
-                className="flex items-center gap-5 p-5 bg-surface border border-border rounded-xl hover:border-accent/40 hover:shadow-[0_0_24px_rgba(79,158,255,0.08)] transition-all duration-300 group"
+                className="flex items-center gap-5 p-5 bg-surface border border-border rounded-xl hover:border-accent/40 hover:shadow-[0_0_24px_color-mix(in_srgb,var(--color-accent)_8%,transparent)] transition-all duration-300 group"
               >
                 <div className="w-10 h-10 rounded-lg bg-accent/10 border border-accent/20 flex items-center justify-center shrink-0 group-hover:bg-accent/20 transition-colors">
                   <Icon size={18} className="text-accent" />

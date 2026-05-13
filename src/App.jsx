@@ -1,5 +1,6 @@
 import { useEffect } from 'react'
 import { LanguageProvider, useLanguage } from './context/LanguageContext'
+import { ThemeProvider } from './context/ThemeContext'
 import Navbar from './components/Navbar'
 import Hero from './components/Hero'
 import About from './components/About'
@@ -33,8 +34,10 @@ function Site() {
 
 export default function App() {
   return (
-    <LanguageProvider>
-      <Site />
-    </LanguageProvider>
+    <ThemeProvider>
+      <LanguageProvider>
+        <Site />
+      </LanguageProvider>
+    </ThemeProvider>
   )
 }

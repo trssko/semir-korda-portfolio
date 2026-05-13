@@ -1,11 +1,13 @@
 import { useState, useEffect } from 'react'
-import { Menu, X } from 'lucide-react'
+import { Menu, X, Sun, Moon } from 'lucide-react'
 import { useLanguage } from '../context/LanguageContext'
+import { useTheme } from '../context/ThemeContext'
 
 const SECTION_IDS = ['about', 'experience', 'skills', 'projects', 'contact']
 
 export default function Navbar() {
-  const { lang, toggle, t } = useLanguage()
+  const { lang, toggle: toggleLang, t } = useLanguage()
+  const { theme, toggle: toggleTheme } = useTheme()
   const [open, setOpen] = useState(false)
   const [active, setActive] = useState('')
   const [scrolled, setScrolled] = useState(false)
@@ -65,20 +67,29 @@ export default function Navbar() {
             </button>
           ))}
 
+          {/* Open to work badge */}
+          <span className="flex items-center gap-2 text-xs font-mono px-3 py-1 rounded-full border border-green/30 text-green bg-green/10">
+            <span className="w-2 h-2 rounded-full bg-green animate-pulse inline-block" />
+            {t.nav.openToWork}
+          </span>
+
           {/* Language toggle */}
           <button
-            onClick={toggle}
+            onClick={toggleLang}
             className="font-mono text-xs text-muted hover:text-text transition-colors cursor-pointer bg-transparent border-none tracking-widest"
             aria-label="Toggle language"
           >
             {lang === 'en' ? 'BS' : 'EN'}
           </button>
 
-          {/* Open to work badge */}
-          <span className="flex items-center gap-2 text-xs font-mono px-3 py-1 rounded-full border border-green/30 text-green bg-green/10">
-            <span className="w-2 h-2 rounded-full bg-green animate-pulse inline-block" />
-            {t.nav.openToWork}
-          </span>
+          {/* Theme toggle */}
+          <button
+            onClick={toggleTheme}
+            className="text-muted hover:text-text transition-colors cursor-pointer bg-transparent border-none"
+            aria-label="Toggle theme"
+          >
+            {theme === 'dark' ? <Sun size={16} /> : <Moon size={16} />}
+          </button>
         </div>
 
         {/* Mobile hamburger */}
@@ -110,12 +121,21 @@ export default function Navbar() {
               <span className="w-2 h-2 rounded-full bg-green animate-pulse inline-block" />
               {t.nav.openToWork}
             </span>
-            <button
-              onClick={toggle}
-              className="font-mono text-xs text-muted hover:text-text transition-colors cursor-pointer bg-transparent border-none tracking-widest"
-            >
-              {lang === 'en' ? 'BS' : 'EN'}
-            </button>
+            <div className="flex items-center gap-4">
+              <button
+                onClick={toggleLang}
+                className="font-mono text-xs text-muted hover:text-text transition-colors cursor-pointer bg-transparent border-none tracking-widest"
+              >
+                {lang === 'en' ? 'BS' : 'EN'}
+              </button>
+              <button
+                onClick={toggleTheme}
+                className="text-muted hover:text-text transition-colors cursor-pointer bg-transparent border-none"
+                aria-label="Toggle theme"
+              >
+                {theme === 'dark' ? <Sun size={16} /> : <Moon size={16} />}
+              </button>
+            </div>
           </div>
         </div>
       )}

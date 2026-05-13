@@ -44,7 +44,7 @@ export default function Projects() {
             <motion.div
               key={project.title}
               variants={card}
-              className="group bg-surface border border-border rounded-xl p-6 flex flex-col hover:border-accent/40 hover:shadow-[0_0_30px_rgba(79,158,255,0.08)] transition-all duration-300"
+              className="group bg-surface border border-border rounded-xl p-6 flex flex-col hover:border-accent/40 hover:shadow-[0_0_30px_color-mix(in_srgb,var(--color-accent)_8%,transparent)] transition-all duration-300"
             >
               <div className="flex items-start justify-between mb-4">
                 <h3 className="font-mono font-semibold text-text text-base leading-snug pr-4">

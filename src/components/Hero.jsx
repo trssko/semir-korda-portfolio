@@ -93,7 +93,7 @@ export default function Hero() {
         >
           <button
             onClick={scrollToWork}
-            className="px-6 py-3 rounded-lg font-mono text-sm font-medium bg-accent text-bg hover:brightness-110 transition-all duration-200 hover:shadow-[0_0_24px_rgba(79,158,255,0.4)] cursor-pointer border-none"
+            className="px-6 py-3 rounded-lg font-mono text-sm font-medium bg-accent text-bg hover:brightness-110 transition-all duration-200 hover:shadow-[0_0_24px_color-mix(in_srgb,var(--color-accent)_40%,transparent)] cursor-pointer border-none"
           >
             {t.hero.viewWork}
           </button>

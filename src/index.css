@@ -1,7 +1,23 @@
 @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap');
 @import "tailwindcss";
 
+/* ── Light mode base (default) ── */
 @theme {
+  --color-bg: #f8fafc;
+  --color-surface: #ffffff;
+  --color-border: #e2e8f0;
+  --color-accent: #2563eb;
+  --color-violet: #7c3aed;
+  --color-text: #0f172a;
+  --color-muted: #475569;
+  --color-green: #16a34a;
+
+  --font-mono: 'JetBrains Mono', monospace;
+  --font-sans: 'Inter', sans-serif;
+}
+
+/* ── Dark mode overrides ── */
+.dark {
   --color-bg: #0a0a0f;
   --color-surface: #111118;
   --color-border: #1e1e2e;
@@ -10,55 +26,39 @@
   --color-text: #e2e8f0;
   --color-muted: #64748b;
   --color-green: #22c55e;
-
-  --font-mono: 'JetBrains Mono', monospace;
-  --font-sans: 'Inter', sans-serif;
 }
 
 html {
   scroll-behavior: smooth;
-  background-color: #0a0a0f;
-  color: #e2e8f0;
+  background-color: var(--color-bg);
+  color: var(--color-text);
   font-family: 'Inter', sans-serif;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 body {
   margin: 0;
-  background-color: #0a0a0f;
+  background-color: var(--color-bg);
   overflow-x: hidden;
 }
 
-/* Dot grid background texture */
+/* Dot grid — color follows theme */
 .bg-grid {
-  background-image: radial-gradient(circle, #1e1e2e 1px, transparent 1px);
+  background-image: radial-gradient(circle, var(--color-border) 1px, transparent 1px);
   background-size: 32px 32px;
 }
 
 /* Scrollbar */
-::-webkit-scrollbar {
-  width: 6px;
-}
-::-webkit-scrollbar-track {
-  background: #0a0a0f;
-}
-::-webkit-scrollbar-thumb {
-  background: #1e1e2e;
-  border-radius: 3px;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: #4f9eff;
-}
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--color-bg); }
+::-webkit-scrollbar-thumb { background: var(--color-border); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--color-accent); }
 
 /* Cursor blink */
 @keyframes blink {
   0%, 100% { opacity: 1; }
   50% { opacity: 0; }
 }
+.cursor-blink { animation: blink 1s step-end infinite; }
 
-.cursor-blink {
-  animation: blink 1s step-end infinite;
-}
-
-a {
-  text-decoration: none;
-}
+a { text-decoration: none; }
