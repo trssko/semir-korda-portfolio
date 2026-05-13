@@ -2,15 +2,22 @@ import { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 import { Mail, ArrowDown, FileText } from 'lucide-react'
 import { GithubIcon, LinkedinIcon } from './icons'
-
-const roles = ['Software Engineer', 'Full-Stack Developer', 'Open to Full-Time Roles']
+import { useLanguage } from '../context/LanguageContext'
 
 export default function Hero() {
+  const { t } = useLanguage()
   const [roleIndex, setRoleIndex] = useState(0)
   const [displayed, setDisplayed] = useState('')
   const [deleting, setDeleting] = useState(false)
 
   useEffect(() => {
+    setDisplayed('')
+    setDeleting(false)
+    setRoleIndex(0)
+  }, [t])
+
+  useEffect(() => {
+    const roles = t.hero.roles
     const target = roles[roleIndex]
     let timeout
 
@@ -26,7 +33,7 @@ export default function Hero() {
     }
 
     return () => clearTimeout(timeout)
-  }, [displayed, deleting, roleIndex])
+  }, [displayed, deleting, roleIndex, t])
 
   const scrollToWork = () => {
     document.getElementById('experience')?.scrollIntoView({ behavior: 'smooth' })
@@ -34,8 +41,8 @@ export default function Hero() {
 
   return (
     <section className="relative min-h-screen flex items-center justify-center bg-grid overflow-hidden">
-      {/* Radial glow */}
-      <div className="absolute inset-0 pointer-events-none"
+      <div
+        className="absolute inset-0 pointer-events-none"
         style={{ background: 'radial-gradient(ellipse at 50% 40%, rgba(79,158,255,0.07) 0%, transparent 65%)' }}
       />
 
@@ -46,7 +53,7 @@ export default function Hero() {
           transition={{ duration: 0.6 }}
         >
           <p className="font-mono text-accent text-sm mb-4 tracking-widest uppercase">
-            Hello, world. I&apos;m
+            {t.hero.greeting}
           </p>
         </motion.div>
 
@@ -59,7 +66,6 @@ export default function Hero() {
           Semir Korda
         </motion.h1>
 
-        {/* Typewriter */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -76,11 +82,9 @@ export default function Hero() {
           transition={{ delay: 0.5 }}
           className="text-muted text-base md:text-lg max-w-2xl mx-auto mb-10 leading-relaxed"
         >
-          Software engineering student from Sarajevo with hands-on experience in full-stack
-          development, space-grade infrastructure, and CI/CD pipelines.
+          {t.hero.bio}
         </motion.p>
 
-        {/* CTAs */}
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
@@ -91,7 +95,7 @@ export default function Hero() {
             onClick={scrollToWork}
             className="px-6 py-3 rounded-lg font-mono text-sm font-medium bg-accent text-bg hover:brightness-110 transition-all duration-200 hover:shadow-[0_0_24px_rgba(79,158,255,0.4)] cursor-pointer border-none"
           >
-            View My Work
+            {t.hero.viewWork}
           </button>
           <a
             href="/cv.pdf"
@@ -99,45 +103,27 @@ export default function Hero() {
             className="px-6 py-3 rounded-lg font-mono text-sm font-medium border border-border text-text hover:border-accent hover:text-accent transition-all duration-200 flex items-center gap-2"
           >
             <FileText size={15} />
-            Download CV
+            {t.hero.downloadCv}
           </a>
         </motion.div>
 
-        {/* Social links */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.8 }}
           className="flex items-center justify-center gap-6"
         >
-          <a
-            href="https://github.com/trssko"
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="GitHub"
-            className="text-muted hover:text-accent transition-colors"
-          >
+          <a href="https://github.com/trssko" target="_blank" rel="noopener noreferrer" aria-label="GitHub" className="text-muted hover:text-accent transition-colors">
             <GithubIcon size={20} />
           </a>
-          <a
-            href="https://www.linkedin.com/in/semir-korda/"
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="LinkedIn"
-            className="text-muted hover:text-accent transition-colors"
-          >
+          <a href="https://www.linkedin.com/in/semir-korda/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" className="text-muted hover:text-accent transition-colors">
             <LinkedinIcon size={20} />
           </a>
-          <a
-            href="mailto:semirkorda9@gmail.com"
-            aria-label="Email"
-            className="text-muted hover:text-accent transition-colors"
-          >
+          <a href="mailto:semirkorda9@gmail.com" aria-label="Email" className="text-muted hover:text-accent transition-colors">
             <Mail size={20} />
           </a>
         </motion.div>
 
-        {/* Scroll hint */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}

@@ -1,26 +1,7 @@
 import { motion } from 'framer-motion'
 import { ExternalLink } from 'lucide-react'
 import { GithubIcon } from './icons'
-
-const projects = [
-  {
-    title: 'AI Real Estate Valuation Agent',
-    description:
-      'Estimates property values from user-defined parameters like size, location, and features — built as part of my 4th-year Artificial Intelligence course.',
-    tags: ['Python', 'AI', 'Machine Learning'],
-    github: 'https://github.com/trssko/agent-za-procjenu-nekretnina',
-    demo: null,
-  },
-  {
-    title: 'Angular + ASP.NET Learning App',
-    description:
-      'A full-stack web application connecting an Angular frontend to an ASP.NET Core backend — built as a personal deep-dive into end-to-end development outside of university.',
-    tags: ['Angular', 'TypeScript', 'C#', 'ASP.NET Core'],
-    github: 'https://github.com/trssko/my-first-angular-app',
-    demo: null,
-  },
-]
-// TODO: Add more projects here as you build them
+import { useLanguage } from '../context/LanguageContext'
 
 const container = {
   hidden: {},
@@ -33,7 +14,8 @@ const card = {
 }
 
 export default function Projects() {
-  const visibleProjects = projects.filter((p) => p.title)
+  const { t } = useLanguage()
+  const { projects } = t
 
   return (
     <section id="projects" className="py-24 px-6 bg-surface/40">
@@ -45,8 +27,8 @@ export default function Projects() {
           transition={{ duration: 0.5 }}
           className="mb-14"
         >
-          <p className="font-mono text-accent text-sm tracking-widest uppercase mb-2">04. Projects</p>
-          <h2 className="font-mono font-bold text-3xl md:text-4xl text-text">Projects</h2>
+          <p className="font-mono text-accent text-sm tracking-widest uppercase mb-2">{projects.label}</p>
+          <h2 className="font-mono font-bold text-3xl md:text-4xl text-text">{projects.heading}</h2>
           <div className="mt-3 w-12 h-0.5 bg-accent" />
         </motion.div>
 
@@ -57,7 +39,8 @@ export default function Projects() {
           viewport={{ once: true, amount: 0.1 }}
           className="grid md:grid-cols-2 gap-6"
         >
-          {visibleProjects.map((project) => (
+          {/* TODO: Add more projects here as you build them */}
+          {projects.items.map((project) => (
             <motion.div
               key={project.title}
               variants={card}
@@ -99,10 +82,7 @@ export default function Projects() {
 
               <div className="flex flex-wrap gap-2">
                 {project.tags.map((tag) => (
-                  <span
-                    key={tag}
-                    className="px-2.5 py-1 font-mono text-xs rounded-md border border-border text-accent bg-accent/5"
-                  >
+                  <span key={tag} className="px-2.5 py-1 font-mono text-xs rounded-md border border-border text-accent bg-accent/5">
                     {tag}
                   </span>
                 ))}

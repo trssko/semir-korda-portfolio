@@ -1,9 +1,11 @@
 import { useState, useEffect } from 'react'
 import { Menu, X } from 'lucide-react'
+import { useLanguage } from '../context/LanguageContext'
 
-const links = ['About', 'Experience', 'Skills', 'Projects', 'Contact']
+const SECTION_IDS = ['about', 'experience', 'skills', 'projects', 'contact']
 
 export default function Navbar() {
+  const { lang, toggle, t } = useLanguage()
   const [open, setOpen] = useState(false)
   const [active, setActive] = useState('')
   const [scrolled, setScrolled] = useState(false)
@@ -16,11 +18,11 @@ export default function Navbar() {
 
   useEffect(() => {
     const observers = []
-    links.forEach((link) => {
-      const el = document.getElementById(link.toLowerCase())
+    SECTION_IDS.forEach((id) => {
+      const el = document.getElementById(id)
       if (!el) return
       const obs = new IntersectionObserver(
-        ([entry]) => { if (entry.isIntersecting) setActive(link.toLowerCase()) },
+        ([entry]) => { if (entry.isIntersecting) setActive(id) },
         { rootMargin: '-40% 0px -50% 0px' }
       )
       obs.observe(el)
@@ -51,23 +53,31 @@ export default function Navbar() {
 
         {/* Desktop links */}
         <div className="hidden md:flex items-center gap-8">
-          {links.map((link) => (
+          {t.nav.links.map((label, i) => (
             <button
-              key={link}
-              onClick={() => scrollTo(link.toLowerCase())}
+              key={SECTION_IDS[i]}
+              onClick={() => scrollTo(SECTION_IDS[i])}
               className={`font-mono text-sm transition-colors cursor-pointer bg-transparent border-none ${
-                active === link.toLowerCase()
-                  ? 'text-accent'
-                  : 'text-muted hover:text-text'
+                active === SECTION_IDS[i] ? 'text-accent' : 'text-muted hover:text-text'
               }`}
             >
-              {link}
+              {label}
             </button>
           ))}
 
+          {/* Language toggle */}
+          <button
+            onClick={toggle}
+            className="font-mono text-xs text-muted hover:text-text transition-colors cursor-pointer bg-transparent border-none tracking-widest"
+            aria-label="Toggle language"
+          >
+            {lang === 'en' ? 'BS' : 'EN'}
+          </button>
+
+          {/* Open to work badge */}
           <span className="flex items-center gap-2 text-xs font-mono px-3 py-1 rounded-full border border-green/30 text-green bg-green/10">
             <span className="w-2 h-2 rounded-full bg-green animate-pulse inline-block" />
-            Open to work
+            {t.nav.openToWork}
           </span>
         </div>
 
@@ -84,21 +94,29 @@ export default function Navbar() {
       {/* Mobile menu */}
       {open && (
         <div className="md:hidden bg-surface/95 backdrop-blur-md border-b border-border px-6 py-4 flex flex-col gap-4">
-          {links.map((link) => (
+          {t.nav.links.map((label, i) => (
             <button
-              key={link}
-              onClick={() => scrollTo(link.toLowerCase())}
+              key={SECTION_IDS[i]}
+              onClick={() => scrollTo(SECTION_IDS[i])}
               className={`font-mono text-sm text-left transition-colors cursor-pointer bg-transparent border-none ${
-                active === link.toLowerCase() ? 'text-accent' : 'text-muted hover:text-text'
+                active === SECTION_IDS[i] ? 'text-accent' : 'text-muted hover:text-text'
               }`}
             >
-              {link}
+              {label}
             </button>
           ))}
-          <span className="flex items-center gap-2 text-xs font-mono w-fit px-3 py-1 rounded-full border border-green/30 text-green bg-green/10">
-            <span className="w-2 h-2 rounded-full bg-green animate-pulse inline-block" />
-            Open to work
-          </span>
+          <div className="flex items-center justify-between">
+            <span className="flex items-center gap-2 text-xs font-mono px-3 py-1 rounded-full border border-green/30 text-green bg-green/10">
+              <span className="w-2 h-2 rounded-full bg-green animate-pulse inline-block" />
+              {t.nav.openToWork}
+            </span>
+            <button
+              onClick={toggle}
+              className="font-mono text-xs text-muted hover:text-text transition-colors cursor-pointer bg-transparent border-none tracking-widest"
+            >
+              {lang === 'en' ? 'BS' : 'EN'}
+            </button>
+          </div>
         </div>
       )}
     </header>
