@@ -1,7 +1,9 @@
+import { useState } from 'react'
 import { motion } from 'framer-motion'
-import { ExternalLink } from 'lucide-react'
+import { ExternalLink, Images } from 'lucide-react'
 import { GithubIcon } from './icons'
 import { useLanguage } from '../context/LanguageContext'
+import Lightbox from './Lightbox'
 
 const container = {
   hidden: {},
@@ -16,6 +18,7 @@ const card = {
 export default function Projects() {
   const { t } = useLanguage()
   const { projects } = t
+  const [lightbox, setLightbox] = useState(null) // { images }
 
   return (
     <section id="projects" className="py-24 px-6 bg-surface/40">
@@ -44,13 +47,22 @@ export default function Projects() {
             <motion.div
               key={project.title}
               variants={card}
-              className="group bg-surface border border-border rounded-xl p-6 flex flex-col hover:border-accent/40 hover:shadow-[0_0_30px_color-mix(in_srgb,var(--color-accent)_8%,transparent)] transition-all duration-300"
+              onClick={project.images ? () => setLightbox({ images: project.images }) : undefined}
+              className={`group bg-surface border border-border rounded-xl p-6 flex flex-col hover:border-accent/40 hover:shadow-[0_0_30px_color-mix(in_srgb,var(--color-accent)_8%,transparent)] transition-all duration-300 ${
+                project.images ? 'cursor-pointer' : ''
+              }`}
             >
               <div className="flex items-start justify-between mb-4">
                 <h3 className="font-mono font-semibold text-text text-base leading-snug pr-4">
                   {project.title}
                 </h3>
                 <div className="flex items-center gap-3 shrink-0">
+                  {project.images && (
+                    <span className="flex items-center gap-1.5 text-xs font-mono text-muted group-hover:text-accent transition-colors">
+                      <Images size={15} />
+                      {project.images.length}
+                    </span>
+                  )}
                   {project.github && (
                     <a
                       href={project.github}
@@ -58,6 +70,7 @@ export default function Projects() {
                       rel="noopener noreferrer"
                       aria-label={`GitHub repo for ${project.title}`}
                       className="text-muted hover:text-accent transition-colors"
+                      onClick={(e) => e.stopPropagation()}
                     >
                       <GithubIcon size={18} />
                     </a>
@@ -69,6 +82,7 @@ export default function Projects() {
                       rel="noopener noreferrer"
                       aria-label={`Live demo for ${project.title}`}
                       className="text-muted hover:text-accent transition-colors"
+                      onClick={(e) => e.stopPropagation()}
                     >
                       <ExternalLink size={18} />
                     </a>
@@ -80,17 +94,31 @@ export default function Projects() {
                 {project.description}
               </p>
 
-              <div className="flex flex-wrap gap-2">
-                {project.tags.map((tag) => (
-                  <span key={tag} className="px-2.5 py-1 font-mono text-xs rounded-md border border-border text-accent bg-accent/5">
-                    {tag}
+              <div className="flex items-center justify-between">
+                <div className="flex flex-wrap gap-2">
+                  {project.tags.map((tag) => (
+                    <span key={tag} className="px-2.5 py-1 font-mono text-xs rounded-md border border-border text-accent bg-accent/5">
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+                {project.images && (
+                  <span className="font-mono text-xs text-muted group-hover:text-accent transition-colors shrink-0 ml-4">
+                    Click to preview →
                   </span>
-                ))}
+                )}
               </div>
             </motion.div>
           ))}
         </motion.div>
       </div>
+
+      {lightbox && (
+        <Lightbox
+          images={lightbox.images}
+          onClose={() => setLightbox(null)}
+        />
+      )}
     </section>
   )
 }
