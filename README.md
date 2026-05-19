@@ -1,5 +1,7 @@
 # Semir Korda — Portfolio
 
+Portfolio: www.semirkorda.dev
+
 Personal portfolio website built with React + Vite, featuring bilingual support (EN/BS) and light/dark mode.
 
 ## Tech Stack
